@@ -4,7 +4,7 @@ version: "3.1"
 services:
   database:
     build: 
-       context: ./database
+       context: database
     image: ddev_db
     environment:
       POSTGRES_USER: gordonuser
@@ -19,7 +19,6 @@ services:
   api:
     build:
        context: api
-       dockerfile: Dockerfile-dev
     image: ddev_api
     ports:
       - "8080:8080"
