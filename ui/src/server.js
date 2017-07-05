@@ -23,7 +23,7 @@ app.get('/pet',function(req,res){
 });
 
 var getPet = function(callback) {
-    request.get('http://api:8080/pet', function(err, res, body){
+    request.get('http://api:8080/api/pet', function(err, res, body){
         url = JSON.parse(body).url;
         callback(url);
     });
