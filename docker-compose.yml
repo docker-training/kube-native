@@ -45,4 +45,3 @@ secrets:
 networks:
   front-tier:
   back-tier:
-    driver: overlay
