@@ -1,4 +1,3 @@
-
 package com.docker.ddev.util;
 
 public class CustomErrorType {

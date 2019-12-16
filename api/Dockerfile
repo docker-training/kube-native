@@ -1,4 +1,4 @@
-FROM maven:latest AS appserver
+FROM maven:3.6.3-jdk-8 AS appserver
 WORKDIR /usr/src/ddev
 COPY pom.xml .
 RUN mvn -B -f pom.xml -s /usr/share/maven/ref/settings-docker.xml dependency:resolve
