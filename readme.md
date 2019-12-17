@@ -17,7 +17,7 @@ This is meant to serve as a minimal but nontrivial demo app for use in container
     export REGISTRY=<your image registry>
     export OWNER=<your user or organization ID in your registry>
     docker image build -t ${REGISTRY}/${OWNER}/api:0.1 api
-    docker image build -t ${REGISTRY}/${OWNER}/db:0.1 db
+    docker image build -t ${REGISTRY}/${OWNER}/db:0.1 database
     docker image push ${REGISTRY}/${OWNER}/api:0.1
     docker image push ${REGISTRY}/${OWNER}/db:0.1
     ```
