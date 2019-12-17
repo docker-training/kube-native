@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: billmills/ci_db:latest
+        image: ci_db:latest
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: billmills/ci_api:latest
+        image: ci_api:latest
 ---
 apiVersion: v1
 kind: Service
