@@ -1,0 +1,25 @@
+pipeline {    
+
+    agent any    
+    
+    environment {
+        DOCKER_TLS_VERIFY='1'                                                                                               
+        COMPOSE_TLS_VERSION='TLSv1_2'                                                                                       
+        DOCKER_CERT_PATH='/home/jenkins/admincerts'                                                                       
+        DOCKER_HOST='tcp://<UCP FQDN>:443'
+        DTR_FQDN_PORT='<DTR FQDN>:4443'
+    }
+
+    stages {
+        stage('Test') {
+            environment {
+                DTR_ACCESS_KEY = credentials('jenkins-dtr-access-token')
+            }
+            steps {
+                sh 'docker login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT}'
+                sh 'docker image pull ${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
+                sh 'docker container run ${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
+            }
+        }
+    }
+}
