@@ -17,10 +17,10 @@ pipeline {
             }
             steps {
                 sh 'docker image build -t ${DTR_FQDN_PORT}/engineering/db:1.0 database'
-                sh 'docker image build -t ${DTR_FQDN_PORT}/engineering/api:rc-1.0-build-${BUILD_ID} api'
+                sh 'docker image build -t ${DTR_FQDN_PORT}/engineering/api-build:rc-1.0-build-${BUILD_ID} api'
                 sh 'docker login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT}'
                 sh 'docker image push ${DTR_FQDN_PORT}/engineering/db:1.0'
-                sh 'docker image push ${DTR_FQDN_PORT}/engineering/api:rc-1.0-build-${BUILD_ID}'
+                sh 'docker image push ${DTR_FQDN_PORT}/engineering/api-build:rc-1.0-build-${BUILD_ID}'
             }
         }
     }
