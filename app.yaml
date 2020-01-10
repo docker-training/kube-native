@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: ci_db:latest
+        image: <DTR FQDN>:4443/engineering/db:1.0
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: ci_api:latest
+        image: <DTR FQDN>:4443/engineering/api-build:demo
 ---
 apiVersion: v1
 kind: Service
