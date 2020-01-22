@@ -8,4 +8,4 @@ DB:
   tag: '1.0'
 
 API:
-  tag: '<tag of API image to deploy>'
+  tag: 'demo'
