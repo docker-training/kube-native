@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-	app: api
+        app: api
     spec:
       containers:
       - name: springboot
