@@ -1,0 +1,9 @@
+DTR:
+  FQDN: <DTR FQDN>
+  port: 4443
+
+DB:
+  tag: '1.0'
+
+API:
+  tag: '<tag of API image to deploy>'
