@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: {{ .Values.DTR.FQDN }}:{{ .Values.DTR.port }}/engineering/api-build:{{ .Values.API.tag }}
+        image: {{ .Values.DTR.FQDN }}:{{ .Values.DTR.port }}/{{ .Values.API.repo }}:{{ .Values.API.tag }}
