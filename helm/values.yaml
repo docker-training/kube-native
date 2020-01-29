@@ -6,4 +6,5 @@ DB:
   tag: '1.0'
 
 API:
+  repo: 'engineering/api-build'
   tag: 'demo'
