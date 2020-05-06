@@ -1,11 +1,12 @@
 var db = require('./db.js');
+const log = require('log-to-file');
 
 exports.events = function (req, res) {
-  console.log('Loading DB events...');
+  log('Loading DB events...', '/api.log');
   db.Events
     .findAll()
     .then(events => {
-        console.log('Fetched events, count: ' + events.length);
+        log('Fetched events, count: ' + events.length, '/api.log');
         res.json(events);
     })
     .catch(err => {
@@ -14,7 +15,7 @@ exports.events = function (req, res) {
 };
 
 exports.event = function (req, res) {
-  console.log('Handling event call, method: ' + req.method + ', event ID: ' + req.params.eventId)
+  log('Handling event call, method: ' + req.method + ', event ID: ' + req.params.eventId, '/api.log')
   switch(req.method) {
     case "DELETE":
       db.Events
@@ -23,7 +24,7 @@ exports.event = function (req, res) {
           id: req.params.eventId
         }
       }).then(function() {
-        console.log('Deleted event with id: ' + req.params.eventId)
+        log('Deleted event with id: ' + req.params.eventId, '/api.log')
         res.status(200).end();
       });
       break
