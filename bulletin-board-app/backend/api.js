@@ -1,6 +1,7 @@
 var db = require('./db.js');
 const log = require('log-to-file');
 
+log('beginning API logs', '/logs/api.log')
 exports.events = function (req, res) {
   log('Loading DB events...', '/logs/api.log');
   db.Events
