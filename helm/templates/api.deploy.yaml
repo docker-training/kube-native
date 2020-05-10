@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: {{ .Values.DTR.FQDN }}:{{ .Values.DTR.port }}/{{ .Values.API.repo }}:{{ .Values.API.tag }}
+        image: billmills/api:debuggers

@@ -30,9 +30,9 @@ spring:
       enabled: true
 datasource:
   ddev:
-    url: jdbc:postgresql://database:5432/ddev
-    username: gordonuser
-    password: gordonpass
+    url: jdbc:postgresql://database:5432/products
+    username: postgres
+    password: ursamajor
     driverClassName: org.postgresql.Driver
     defaultSchema:
     maxConnections: 300

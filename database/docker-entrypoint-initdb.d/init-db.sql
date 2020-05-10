@@ -8,8 +8,8 @@ CREATE TABLE products
 );
 
 ALTER TABLE products
-  OWNER TO gordonuser;
-ALTER ROLE gordonuser CONNECTION LIMIT -1;
+  OWNER TO postgres;
+ALTER ROLE postgres CONNECTION LIMIT -1;
 
 -- add image data
 INSERT INTO products (description, price) VALUES('resistor', 0.01);
