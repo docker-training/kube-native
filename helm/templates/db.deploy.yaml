@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: billmills/db:1.0
+        image: image: {{ .Values.DHUSER }}/db:{{ .Values.DB.tag }}

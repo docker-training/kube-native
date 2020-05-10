@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: billmills/api:debuggers
+        image: {{ .Values.DHUSER }}/api:{{ .Values.API.tag }}

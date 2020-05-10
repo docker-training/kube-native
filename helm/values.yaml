@@ -1,10 +1,7 @@
-DTR:
-  FQDN: <DTR FQDN>
-  port: 4443
-
+DHUSER: <your docker hub user name>
+ 
 DB:
   tag: '1.0'
-
+ 
 API:
-  repo: 'engineering/api-build'
-  tag: 'demo'
+  tag: 'debuggers'
