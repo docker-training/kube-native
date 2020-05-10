@@ -1,4 +1,4 @@
-package com.docker.ddev.configuration;
+package com.docker.demo.configuration;
 
 import java.util.Properties;
 import java.io.BufferedReader;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.docker.ddev.repositories",
+@EnableJpaRepositories(basePackages = "com.docker.demo.repositories",
 		entityManagerFactoryRef = "entityManagerFactory",
 		transactionManagerRef = "transactionManager")
 @EnableTransactionManagement
@@ -44,7 +44,7 @@ public class JpaConfiguration {
 	 */
 	@Bean
 	@Primary
-	@ConfigurationProperties(prefix = "datasource.ddev")
+	@ConfigurationProperties(prefix = "datasource.demo")
 	public DataSourceProperties dataSourceProperties() {
 		DataSourceProperties dataSourceProperties = new DataSourceProperties();
 
@@ -90,7 +90,7 @@ public class JpaConfiguration {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
 		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 		factoryBean.setDataSource(dataSource());
-		factoryBean.setPackagesToScan(new String[] { "com.docker.ddev.model" });
+		factoryBean.setPackagesToScan(new String[] { "com.docker.demo.model" });
 		factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
 		factoryBean.setJpaProperties(jpaProperties());
 		return factoryBean;
@@ -110,12 +110,12 @@ public class JpaConfiguration {
 	 */
 	private Properties jpaProperties() {
 		Properties properties = new Properties();
-		properties.put("hibernate.dialect", environment.getRequiredProperty("datasource.ddev.hibernate.dialect"));
-		properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("datasource.ddev.hibernate.hbm2ddl.method"));
-		properties.put("hibernate.show_sql", environment.getRequiredProperty("datasource.ddev.hibernate.show_sql"));
-		properties.put("hibernate.format_sql", environment.getRequiredProperty("datasource.ddev.hibernate.format_sql"));
-		if(StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.ddev.defaultSchema"))){
-			properties.put("hibernate.default_schema", environment.getRequiredProperty("datasource.ddev.defaultSchema"));
+		properties.put("hibernate.dialect", environment.getRequiredProperty("datasource.demo.hibernate.dialect"));
+		properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("datasource.demo.hibernate.hbm2ddl.method"));
+		properties.put("hibernate.show_sql", environment.getRequiredProperty("datasource.demo.hibernate.show_sql"));
+		properties.put("hibernate.format_sql", environment.getRequiredProperty("datasource.demo.hibernate.format_sql"));
+		if(StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.demo.defaultSchema"))){
+			properties.put("hibernate.default_schema", environment.getRequiredProperty("datasource.demo.defaultSchema"));
 		}
 		return properties;
 	}

@@ -1,4 +1,4 @@
-package com.docker.ddev.controller;
+package com.docker.demo.controller;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.docker.ddev.model.Product;
-import com.docker.ddev.service.ProductService;
-import com.docker.ddev.util.CustomErrorType;
+import com.docker.demo.model.Product;
+import com.docker.demo.service.ProductService;
+import com.docker.demo.util.CustomErrorType;
 
 @RestController
 @RequestMapping("/api")

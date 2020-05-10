@@ -1,4 +1,4 @@
-package com.docker.ddev.security;
+package com.docker.demo.security;
 
 import javax.sql.DataSource;
 

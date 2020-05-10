@@ -1,4 +1,4 @@
-package com.docker.ddev.model;
+package com.docker.demo.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

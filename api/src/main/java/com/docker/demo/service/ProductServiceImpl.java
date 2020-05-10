@@ -1,4 +1,4 @@
-package com.docker.ddev.service;
+package com.docker.demo.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.docker.ddev.model.Product;
-import com.docker.ddev.repositories.ProductRepository;
+import com.docker.demo.model.Product;
+import com.docker.demo.repositories.ProductRepository;
 
 @Service("productService")
 @Transactional

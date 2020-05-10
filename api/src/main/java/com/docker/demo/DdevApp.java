@@ -1,4 +1,4 @@
-package com.docker.ddev;
+package com.docker.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,15 +9,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.docker.ddev.configuration.JpaConfiguration;
+import com.docker.demo.configuration.JpaConfiguration;
 
 
 @Import(JpaConfiguration.class)
-@SpringBootApplication(scanBasePackages={"com.docker.ddev"})
-@EntityScan("com.docker.ddev.model")
-@EnableJpaRepositories("com.docker.ddev.repository")
-public class DdevApp {
+@SpringBootApplication(scanBasePackages={"com.docker.demo"})
+@EntityScan("com.docker.demo.model")
+@EnableJpaRepositories("com.docker.demo.repository")
+public class DemoApp {
 	public static void main(String[] args) {
-		SpringApplication.run(DdevApp.class, args);
+		SpringApplication.run(DemoApp.class, args);
 	}
 }

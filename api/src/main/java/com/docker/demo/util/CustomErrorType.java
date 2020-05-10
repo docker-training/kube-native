@@ -1,4 +1,4 @@
-package com.docker.ddev.util;
+package com.docker.demo.util;
 
 public class CustomErrorType {
     private String errorMessage;
