@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: <docker hub user name>/bb:web-0.1
+        image: <docker hub user name>/bb:web-0.2
 ---
 apiVersion: v1
 kind: Service
