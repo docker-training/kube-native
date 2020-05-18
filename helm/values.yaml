@@ -1,7 +1,13 @@
-DHUSER: <your docker hub user name>
- 
+DTR:
+  FQDN: <de-master public DNS>
+  port: 4443
+
 DB:
   tag: '1.0'
- 
+
 API:
-  tag: 'debuggers'
+  repo: 'engineering/api-build'
+  tag: 'demo'
+
+environment:
+  host: 'staging'
