@@ -12,8 +12,8 @@ pipeline {
                 DTR_ACCESS_KEY = credentials('jenkins-dtr-access-token')
             }
             steps {
-                sh 'docker login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT}'
-                sh 'docker image pull ${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
+                sh 'docker --context=testserver login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT}'
+                sh 'docker --context=testserver image pull ${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
                 sh 'kubectl run unittest-${TAG} \
                      -n testing \
                      --generator=run-pod/v1 \
