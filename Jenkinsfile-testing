@@ -30,7 +30,7 @@ pipeline {
             steps {
                 // deploy our application for integration testing
                 sh 'BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
-                    helm install integrationtest --namespace testing --wait helm --set API.tag=rc-${MAJORMINOR}.${BUILDNO}'
+                    helm install integrationtest --namespace testing --wait helm --set API.tag=rc-${MAJORMINOR}.${BUILDNO} --set environment.host=testing'
                 // make sure all pods are up before we try to run the integration tests
                 sh 'DBPOD=$(kubectl get pod -l app=db -n test -o jsonpath="{.items[0].metadata.name}"); \
                     APIPOD=$(kubectl get pod -l app=api -n test -o jsonpath="{.items[0].metadata.name}"); \
