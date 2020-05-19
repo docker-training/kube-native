@@ -69,7 +69,7 @@ pipeline {
                 helm package --set API.repo=engineering/api --set API.tag=${MAJORMINOR}.${BUILDNO} --version ${MAJORMINOR}.${BUILDNO} --destination releases helm; \
                 git add releases/*; \
                 git commit -a -m "packaged release ${MAJORMINOR}.${BUILDNO}"; \
-                git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/api-stack maven-release'
+                git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/kube-native ci-helm'
             }
         }
     }
