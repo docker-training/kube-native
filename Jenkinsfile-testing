@@ -65,7 +65,7 @@ pipeline {
                 docker --context=stageserver image tag \
                     ${DTR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO} \
                     ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
-                docker --context=stageserver trust sign ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} \
+                docker --context=stageserver trust sign ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 helm package --set API.repo=engineering/api --set API.tag=${MAJORMINOR}.${BUILDNO} --version ${MAJORMINOR}.${BUILDNO} --destination releases helm; \
                 git add releases/*; \
                 git commit -a -m "packaged release ${MAJORMINOR}.${BUILDNO}"; \
