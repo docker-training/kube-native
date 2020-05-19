@@ -67,7 +67,7 @@ pipeline {
                     ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 docker --context=stageserver trust sign ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 helm package --set API.repo=engineering/api --set API.tag=${MAJORMINOR}.${BUILDNO} --version ${MAJORMINOR}.${BUILDNO} --destination releases helm; \
-                git checkout ci-release ; \
+                git checkout -b ci-release ; \
                 git add releases/*; \
                 git commit -a -m "packaged release ${MAJORMINOR}.${BUILDNO}"; \
                 git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/kube-native ci-release'
