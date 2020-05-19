@@ -6,11 +6,9 @@ COPY . .
 RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package -DskipTests
 
 FROM maven:3.6.3-jdk-8 AS test
-WORKDIR /usr/src/ddev
-COPY unit-pom.xml .
-RUN mvn -B -f unit-pom.xml -s /usr/share/maven/ref/settings-docker.xml dependency:resolve
+WORKDIR /usr/src/demo
 COPY . .
-CMD ["mvn", "clean", "test"]
+CMD ["mvn", "-f", "unit-pom.xml",  "clean", "test"]
 
 FROM java:8-jdk-alpine
 WORKDIR /app
