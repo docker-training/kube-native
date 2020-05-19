@@ -4,6 +4,7 @@ pipeline {
     
     environment {
         DTR_FQDN_PORT='<DTR FQDN>:4443'
+        GIT_USER='<GitHub username>'
     }
 
     stages {
@@ -50,6 +51,7 @@ pipeline {
               MAJORMINOR = '0.0'
               DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=credentials('jenkins-content-trust')
               JENKINS_PK=credentials('jenkins-key')
+              GIT_TOKEN=credentials('github-token)
             }
             steps {
                 sh 'docker --context=stageserver login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT} ; \
@@ -64,6 +66,11 @@ pipeline {
                     ${DTR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO} \
                     ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 docker --context=stageserver trust sign ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO}'
+                helm package --set API.repo=engineering/api --set API.tag=${MAJORMINOR}.${BUILDNO} --version ${MAJORMINOR}.${BUILDNO} --destination releases helm;
+               git add releases/*; \
+               git commit -a -m "packaged release ${MAJORMINOR}.${BUILDNO}"; \
+               git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/api-stack maven-release'
+'
             }
         }
     }
