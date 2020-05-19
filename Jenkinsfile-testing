@@ -48,7 +48,8 @@ pipeline {
 
     post {
         always{
-            sh 'rm -rf ${WORKSPACE}/*'
+            sh 'rm -rf ${WORKSPACE}/* ; \
+                helm uninstall integrationtest --namespace test'
         }
     }
 }
