@@ -51,7 +51,7 @@ pipeline {
               MAJORMINOR = '0.0'
               DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=credentials('jenkins-content-trust')
               JENKINS_PK=credentials('jenkins-key')
-              GIT_TOKEN=credentials('github-token)
+              GIT_TOKEN=credentials('github-token')
             }
             steps {
                 sh 'docker --context=stageserver login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT} ; \
