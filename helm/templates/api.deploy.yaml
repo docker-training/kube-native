@@ -15,5 +15,11 @@ spec:
       containers:
       - name: springboot
         image: {{ .Values.DTR.FQDN }}:{{ .Values.DTR.port }}/{{ .Values.API.repo }}:{{ .Values.API.tag }}
+        readinessProbe:
+          httpGet:
+            path: /api/products/1
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 5
       nodeSelector:
         kubernetes.io/hostname: {{.Values.environment.host}}
