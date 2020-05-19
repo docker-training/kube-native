@@ -25,6 +25,7 @@ pipeline {
         stage('Integration') {
             environment {
                 DTR_ACCESS_KEY = credentials('jenkins-dtr-access-token')
+                MAJORMINOR = '0.0'
             }
             steps {
                 // deploy our application for integration testing
