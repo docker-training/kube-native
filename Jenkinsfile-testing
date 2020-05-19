@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh 'docker --context=testserver login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT}'
                 sh 'docker --context=testserver image pull ${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
-                sh 'kubectl run unittest-${TAG} \
+                sh 'kubectl run unittest-$(echo $TAG | tr . -) \
                      -n testing \
                      --generator=run-pod/v1 \
                      --restart=Never --attach=True \
