@@ -41,8 +41,7 @@ pipeline {
                 sh 'BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
                     kubectl run integration-${BUILDNO} \
                         --image ${DTR_FQDN_PORT}/engineering/api-build:integration-${MAJORMINOR}.${BUILDNO} \
-                        -n testing --restart=Never --attach=True; \
-                    helm uninstall integrationtest --namespace testing'
+                        -n testing --restart=Never --attach=True;'
             }
         }
     }
