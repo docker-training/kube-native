@@ -3,10 +3,6 @@ pipeline {
     agent any    
     
     environment {
-        DOCKER_TLS_VERIFY='1'                                                                                               
-        COMPOSE_TLS_VERSION='TLSv1_2'                                                                                       
-        DOCKER_CERT_PATH='/home/jenkins/jenkinscerts'                                                                       
-        DOCKER_HOST='tcp://<REG_FQDN>:443'
         DTR_FQDN_PORT='<REG_FQDN>:4443'
     }
 
