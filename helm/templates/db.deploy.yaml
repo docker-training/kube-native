@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: image: {{ .Values.DHUSER }}/db:{{ .Values.DB.tag }}
+        image: {{ .Values.DHUSER }}/db:{{ .Values.DB.tag }}
