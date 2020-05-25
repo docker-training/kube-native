@@ -18,7 +18,7 @@ pipeline {
                      -n testing \
                      --generator=run-pod/v1 \
                      --restart=Never --attach=True \
-                     --overrides='{"apiVersion": "v1", "spec": {"nodeSelector": { "kubernetes.io/hostname": "testing" }}}' \
+                     --overrides=\'{"apiVersion": "v1", "spec": {"nodeSelector": { "kubernetes.io/hostname": "testing" }}}\' \
                      --image=${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
             }
         }
