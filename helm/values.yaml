@@ -1,5 +1,5 @@
 DTR:
-  FQDN: <de-master public DNS>
+  FQDN: <image registry public DNS>
   port: 4443
 
 DB:
