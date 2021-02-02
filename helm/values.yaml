@@ -1,5 +1,5 @@
-DTR:
-  FQDN: <image registry public DNS>
+MSR:
+  FQDN: <image registry dynamic DNS>
   port: 4443
 
 DB:
