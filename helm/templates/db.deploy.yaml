@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: {{ .Values.DTR.FQDN }}:{{ .Values.DTR.port }}/engineering/db:{{ .Values.DB.tag }}
+        image: {{ .Values.MSR.FQDN }}:{{ .Values.MSR.port }}/engineering/db:{{ .Values.DB.tag }}
       nodeSelector:
         kubernetes.io/hostname: {{.Values.environment.host}}
