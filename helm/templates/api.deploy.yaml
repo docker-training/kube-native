@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: {{ .Values.DTR.FQDN }}:{{ .Values.DTR.port }}/{{ .Values.API.repo }}:{{ .Values.API.tag }}
+        image: {{ .Values.MSR.FQDN }}:{{ .Values.MSR.port }}/{{ .Values.API.repo }}:{{ .Values.API.tag }}
       nodeSelector:
         kubernetes.io/hostname: {{.Values.environment.host}}
