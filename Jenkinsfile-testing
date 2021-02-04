@@ -3,29 +3,29 @@ pipeline {
     agent any    
     
     environment {
-        DTR_FQDN_PORT='<DTR FQDN>:4443'
+        MSR_FQDN_PORT='<MSR dynamic DNS>:4443'
         GIT_USER='<GitHub username>'
     }
 
     stages {
         stage('Unit') {
             environment {
-                DTR_ACCESS_KEY = credentials('jenkins-dtr-access-token')
+                MSR_ACCESS_KEY = credentials('jenkins-msr-access-token')
             }
             steps {
-                sh 'docker --context=testserver login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT}'
-                sh 'docker --context=testserver image pull ${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
+                sh 'docker --context=testserver login -u jenkins -p ${MSR_ACCESS_KEY} ${MSR_FQDN_PORT}'
+                sh 'docker --context=testserver image pull ${MSR_FQDN_PORT}/engineering/api-test:${TAG}'
                 sh 'kubectl run $(echo $TAG | tr . -) \
                      -n testing \
                      --generator=run-pod/v1 \
                      --restart=Never --attach=True \
                      --overrides=\'{"apiVersion": "v1", "spec": {"nodeSelector": { "kubernetes.io/hostname": "testing" }}}\' \
-                     --image=${DTR_FQDN_PORT}/engineering/api-test:${TAG}'
+                     --image=${MSR_FQDN_PORT}/engineering/api-test:${TAG}'
             }
         }
         stage('Integration') {
             environment {
-                DTR_ACCESS_KEY = credentials('jenkins-dtr-access-token')
+                MSR_ACCESS_KEY = credentials('jenkins-msr-access-token')
                 MAJORMINOR = '0.0'
             }
             steps {
@@ -41,31 +41,31 @@ pipeline {
                 // run integration tests
                 sh 'BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
                     kubectl run integration-${BUILDNO} \
-                        --image ${DTR_FQDN_PORT}/engineering/api-build:integration-${MAJORMINOR}.${BUILDNO} \
+                        --image ${MSR_FQDN_PORT}/engineering/api-build:integration-${MAJORMINOR}.${BUILDNO} \
                         -n testing --restart=Never --attach=True;'
             }
         }
         stage('Finalization') {
             environment {
-              DTR_ACCESS_KEY=credentials('jenkins-dtr-access-token')
+              MSR_ACCESS_KEY=credentials('jenkins-msr-access-token')
               MAJORMINOR = '0.0'
               DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=credentials('jenkins-content-trust')
               JENKINS_PK=credentials('jenkins-key')
               GIT_TOKEN=credentials('github-token')
             }
             steps {
-                sh 'docker --context=stageserver login -u jenkins -p ${DTR_ACCESS_KEY} ${DTR_FQDN_PORT} ; \
+                sh 'docker --context=stageserver login -u jenkins -p ${MSR_ACCESS_KEY} ${MSR_FQDN_PORT} ; \
                 BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
-                curl -k https://${DTR_FQDN_PORT}/ca \
-                    -o /usr/local/share/ca-certificates/${DTR_FQDN_PORT}.crt ; \
+                curl -k https://${MSR_FQDN_PORT}/ca \
+                    -o /usr/local/share/ca-certificates/${MSR_FQDN_PORT}.crt ; \
                 update-ca-certificates; \
                 docker --context=stageserver trust key load ${JENKINS_PK}; \
                 docker --context=stageserver image pull \
-                    ${DTR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO}; \
+                    ${MSR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO}; \
                 docker --context=stageserver image tag \
-                    ${DTR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO} \
-                    ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
-                docker --context=stageserver trust sign ${DTR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
+                    ${MSR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO} \
+                    ${MSR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
+                docker --context=stageserver trust sign ${MSR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 helm package --set API.repo=engineering/api --set API.tag=${MAJORMINOR}.${BUILDNO} --version ${MAJORMINOR}.${BUILDNO} --destination releases helm; \
                 git checkout ci-release ; \
                 git add releases/*; \
