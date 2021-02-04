@@ -1,5 +1,5 @@
-DTR:
-  FQDN: <de-master public DNS>
+MSR:
+  FQDN: <registry dynamic DNS>
   port: 4443
 
 DB:
