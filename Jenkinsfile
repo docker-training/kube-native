@@ -3,7 +3,7 @@ pipeline {
     agent any    
     
     environment {
-        DTR_FQDN_PORT='ec2-18-184-4-20.eu-central-1.compute.amazonaws.com:4443'
+        DTR_FQDN_PORT='ufqd3n3s9yswdex8p-kgeoz3hfcrbfe6slg.labs.strigo.io:4443'
     }
 
     stages {
