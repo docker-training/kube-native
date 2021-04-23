@@ -16,7 +16,6 @@ pipeline {
                 sh 'docker --context=testserver image pull ${MSR_FQDN_PORT}/engineering/api-test:${TAG}'
                 sh 'kubectl run $(echo $TAG | tr . -) \
                      -n testing \
-                     --generator=run-pod/v1 \
                      --restart=Never --attach=True \
                      --overrides=\'{"apiVersion": "v1", "spec": {"nodeSelector": { "kubernetes.io/hostname": "testing" }}}\' \
                      --image=${MSR_FQDN_PORT}/engineering/api-test:${TAG}'
