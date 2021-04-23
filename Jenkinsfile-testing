@@ -4,7 +4,6 @@ pipeline {
     
     environment {
         MSR_FQDN_PORT='<MSR dynamic DNS>:4443'
-        GIT_USER='<GitHub username>'
     }
 
     stages {
@@ -17,7 +16,6 @@ pipeline {
                 sh 'docker --context=testserver image pull ${MSR_FQDN_PORT}/engineering/api-test:${TAG}'
                 sh 'kubectl run $(echo $TAG | tr . -) \
                      -n testing \
-                     --generator=run-pod/v1 \
                      --restart=Never --attach=True \
                      --overrides=\'{"apiVersion": "v1", "spec": {"nodeSelector": { "kubernetes.io/hostname": "testing" }}}\' \
                      --image=${MSR_FQDN_PORT}/engineering/api-test:${TAG}'
@@ -51,7 +49,7 @@ pipeline {
               MAJORMINOR = '0.0'
               DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=credentials('jenkins-content-trust')
               JENKINS_PK=credentials('jenkins-key')
-              GIT_TOKEN=credentials('github-token')
+              MSR_CA=credentials('msr-ca')
             }
             steps {
                 sh 'docker --context=stageserver login -u jenkins -p ${MSR_ACCESS_KEY} ${MSR_FQDN_PORT} ; \
@@ -67,10 +65,7 @@ pipeline {
                     ${MSR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 docker --context=stageserver trust sign ${MSR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
                 helm package --set API.repo=engineering/api --set API.tag=${MAJORMINOR}.${BUILDNO} --version ${MAJORMINOR}.${BUILDNO} --destination releases helm; \
-                git checkout ci-release ; \
-                git add releases/*; \
-                git commit -a -m "packaged release ${MAJORMINOR}.${BUILDNO}"; \
-                git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/kube-native ci-release'
+                helm push demochart-${MAJORMINOR}.${BUILDNO}.tgz https://${MSR_FQDN_PORT}/charts/engineering/api --username jenkins --password ${MSR_ACCESS_KEY} --ca-file ${MSR_CA}
             }
         }
     }
