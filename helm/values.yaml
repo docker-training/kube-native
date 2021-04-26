@@ -6,7 +6,7 @@ DB:
   tag: '1.0'
 
 API:
-  repo: 'engineering/api'
+  repo: 'engineering/api-build'
   tag: 'demo'
 
 environment:
