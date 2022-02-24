@@ -67,7 +67,7 @@ pipeline {
                 sed -i "s|api-build|api|g" helm/values.yaml ; \
                 sed -i "s|\'demo\'|${MAJORMINOR}.${BUILDNO}|g" helm/values.yaml ; \
                 helm package --version ${MAJORMINOR}.${BUILDNO} --destination releases helm ; \
-                helm push releases/demochart-${MAJORMINOR}.${BUILDNO}.tgz https://${MSR_FQDN_PORT}/charts/engineering/api --username jenkins --password ${MSR_ACCESS_KEY} --ca-file ${MSR_CA}'
+                helm cm-push releases/demochart-${MAJORMINOR}.${BUILDNO}.tgz https://${MSR_FQDN_PORT}/charts/engineering/api --username jenkins --password ${MSR_ACCESS_KEY} --ca-file ${MSR_CA}'
             }
         }
     }
