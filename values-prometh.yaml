@@ -1,0 +1,17 @@
+prometheus:
+  service:
+     type: NodePort
+  additionalServiceMonitors:
+    - name: bb-monitor
+      selector:
+        matchLabels:
+          app: bb
+      namespaceSelector:
+        matchNames:
+          - default
+      endpoints:
+       - interval: 15s
+         path: /metrics
+alertmanager:
+   service:
+      type: NodePort
