@@ -7,6 +7,22 @@ pipeline {
     }
 
     stages {
+        stage('Promote') {
+            environment {
+                MSR_ACCESS_KEY = credentials('jenkins-msr-access-token')
+            }
+            steps {
+                // gate on the Trivy scan MSR ran on push (loose limit for the demo; use 0 in real life)
+                sh 'CRITICAL=$(curl -sf -u jenkins:${MSR_ACCESS_KEY} \
+                        "https://${MSR_FQDN_PORT}/api/v2.0/projects/engineering/repositories/api-build/artifacts/${TAG}?with_scan_overview=true" \
+                        | jq "[.scan_overview[].summary.summary.Critical // 0] | add"); \
+                    echo "Critical vulnerabilities in ${TAG}: ${CRITICAL}"; \
+                    test "${CRITICAL}" -lt 100'
+                // promote: copy the scanned artifact into engineering/api-test
+                sh 'curl -sf -u jenkins:${MSR_ACCESS_KEY} -X POST \
+                        "https://${MSR_FQDN_PORT}/api/v2.0/projects/engineering/repositories/api-test/artifacts?from=engineering/api-build:${TAG}"'
+            }
+        }
         stage('Unit') {
             environment {
                 MSR_ACCESS_KEY = credentials('jenkins-msr-access-token')
@@ -47,22 +63,21 @@ pipeline {
             environment {
               MSR_ACCESS_KEY=credentials('jenkins-msr-access-token')
               MAJORMINOR = '0.0'
-              DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=credentials('jenkins-content-trust')
+              COSIGN_PASSWORD=credentials('jenkins-content-trust')
               JENKINS_PK=credentials('jenkins-key')
             }
             steps {
                 sh 'docker --context=stageserver login -u jenkins -p ${MSR_ACCESS_KEY} ${MSR_FQDN_PORT} ; \
                 BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
-                curl -k https://${MSR_FQDN_PORT}/ca \
-                    -o /usr/local/share/ca-certificates/${MSR_FQDN_PORT}.crt ; \
-                update-ca-certificates; \
-                docker --context=stageserver trust key load ${JENKINS_PK}; \
                 docker --context=stageserver image pull \
                     ${MSR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO}; \
                 docker --context=stageserver image tag \
                     ${MSR_FQDN_PORT}/engineering/api-build:rc-${MAJORMINOR}.${BUILDNO} \
-                    ${MSR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO} ; \
-                docker --context=stageserver trust sign ${MSR_FQDN_PORT}/engineering/api:${MAJORMINOR}.${BUILDNO}'
+                    ${MSR_FQDN_PORT}/production/api:${MAJORMINOR}.${BUILDNO} ; \
+                docker --context=stageserver image push ${MSR_FQDN_PORT}/production/api:${MAJORMINOR}.${BUILDNO} ; \
+                cosign login ${MSR_FQDN_PORT} -u jenkins -p ${MSR_ACCESS_KEY} ; \
+                cosign sign --yes --key ${JENKINS_PK} --tlog-upload=false \
+                    ${MSR_FQDN_PORT}/production/api:${MAJORMINOR}.${BUILDNO}'
             }
         }
     }
