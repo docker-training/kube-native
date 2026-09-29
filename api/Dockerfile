@@ -10,7 +10,7 @@ WORKDIR /usr/src/demo
 COPY . .
 CMD ["mvn", "-f", "unit-pom.xml",  "clean", "test"]
 
-FROM openjdk:8-jdk-alpine
+FROM eclipse-temurin:8-jre-alpine
 WORKDIR /app
 COPY --from=appserver /usr/src/demo/target/demo-0.0.1-SNAPSHOT.jar .
 ENTRYPOINT ["java", "-jar", "/app/demo-0.0.1-SNAPSHOT.jar"]
