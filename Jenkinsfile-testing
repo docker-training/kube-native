@@ -86,13 +86,6 @@ pipeline {
                 helm push releases/demochart-${MAJORMINOR}.${BUILDNO}.tgz oci://${MSR_FQDN_PORT}/production --ca-file ${MSR_CA}'
             }
         }
-        stage('Deploy') {
-            steps {
-            sh 'BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
-                cd releases; \
-                helm install final --namespace staging demochart-0.0.${BUILDNO}.tgz'
-            }
-        }
     }
 
     post {
